@@ -1,6 +1,6 @@
 package com.tcs;
 
-public abstract class Bebida {
+public abstract class Bebida{
 
     private Integer identificador;
     private Double litros;

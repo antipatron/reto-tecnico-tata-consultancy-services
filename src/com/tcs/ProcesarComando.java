@@ -11,10 +11,10 @@ public class ProcesarComando {
                 almacen.calcularPrecioTodasBebidas();
                 break;
             case 2:
-                almacen.calcularPrecioTotalMarcaBebida("prueba");
+                almacen.calcularPrecioTotalMarcaBebida();
                 break;
             case 3:
-                almacen.calcularPrecioTotalEstanteria(0);
+                almacen.calcularPrecioTotalEstanteria();
                 break;
             case 4:
                 almacen.agregarProducto();
