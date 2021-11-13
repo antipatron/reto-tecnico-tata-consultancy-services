@@ -2,15 +2,59 @@ package com.tcs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
-    private static List<Estanteria> estanterias = new ArrayList<>();
-    private static Integer identificadorGlobal = 0;
+    private static int opcion;
+    private static Scanner lector = new Scanner(System.in);
+    private static ProcesarComando procesarComando = new ProcesarComando();
+    private static boolean salir = false;
+
 
     public static void main(String[] args) {
 	// write your code here
 
+        while (!salir) {
+            operacion();
+            procesarComando.comando(opcion);
+        }
+
+    }
+
+
+
+    public static void operacion(){
+        boolean operacionIncorrecta = false;
+
+        do{
+            menu();
+            System.out.println("Elija una operación entre 1 y 6: \n");
+            opcion =  lector.nextInt();
+
+            operacionIncorrecta = (opcion<1 || opcion>7);
+            if(operacionIncorrecta){
+                System.out.println("OPERACIÓN INCORRECTA, VUELVE A INTENTARLO");
+            }
+
+            if(opcion==7){
+                salir = true;
+            }
+
+        }while (operacionIncorrecta);
+
+    }
+
+    public static void menu(){
+        System.out.println("\n" +
+                "Operaciones del almacén: \n" +
+                "1. Calcular precio de todas las bebidas\n" +
+                "2. Calcular el precio total de una marca de bebida\n" +
+                "3. Calcular el precio total de una estantería\n" +
+                "4. Agregar producto\n" +
+                "5. Eliminar producto\n" +
+                "6. Mostrar información\n" +
+                "7. Salir");
 
     }
 

@@ -1,6 +1,6 @@
 package com.tcs;
 
-public class Azucarada extends Bebida{
+public class Azucarada extends Bebida implements Producto{
 
     private Double porcentajeAzucar;
     private boolean tienePromocion;
@@ -19,5 +19,14 @@ public class Azucarada extends Bebida{
 
     public void setTienePromocion(boolean tienePromocion) {
         this.tienePromocion = tienePromocion;
+    }
+
+    @Override
+    public String toString() {
+        return "Azucarada{" +
+                "Bebida="+super.toString()+
+                "porcentajeAzucar=" + porcentajeAzucar +
+                ", tienePromocion=" + tienePromocion +
+                '}';
     }
 }

@@ -4,13 +4,20 @@ import java.util.List;
 
 public class Estanteria {
 
-    private List<Bebida> bebidas;
+    private Producto[] productos = new Producto[4];
 
-    public List<Bebida> getBebidas() {
-        return bebidas;
+    public Estanteria(){
+        for (int i = 0; i < productos.length; i++) {
+            Producto producto =  null;
+            productos[i] =producto;
+        }
     }
 
-    public void setBebidas(List<Bebida> bebidas) {
-        this.bebidas = bebidas;
+    public Producto[] getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Producto[] productos) {
+        this.productos = productos;
     }
 }

@@ -1,6 +1,6 @@
 package com.tcs;
 
-public class AguaMineral extends Bebida{
+public class AguaMineral extends Bebida implements Producto{
 
     private String origen;
 
@@ -10,5 +10,13 @@ public class AguaMineral extends Bebida{
 
     public void setOrigen(String origen) {
         this.origen = origen;
+    }
+
+    @Override
+    public String toString() {
+        return "AguaMineral{" +
+                "Bebida="+super.toString()+
+                "origen='" + origen + '\'' +
+                '}';
     }
 }
