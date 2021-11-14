@@ -1,0 +1,3 @@
+Azucarada{Bebida=Bebida{identificador=5, litros=5.0, precio=4.5, marca='yuju'}porcentajeAzucar=5.0, tienePromocion=true}
+AguaMineral{Bebida=Bebida{identificador=2, litros=2.0, precio=2.0, marca='yuju'}origen='Manantial'}
+Azucarada{Bebida=Bebida{identificador=4, litros=4.0, precio=3.6, marca='kilo'}porcentajeAzucar=4.0, tienePromocion=true}
