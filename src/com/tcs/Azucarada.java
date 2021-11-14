@@ -5,6 +5,13 @@ public class Azucarada extends Bebida implements Producto{
     private Double porcentajeAzucar;
     private boolean tienePromocion;
 
+    public Azucarada() {
+    }
+
+    public Azucarada(Integer identificador, Double litros, Double precio, String marca) {
+        super(identificador, litros, precio, marca);
+    }
+
     public Double getPorcentajeAzucar() {
         return porcentajeAzucar;
     }

@@ -1,11 +1,21 @@
 package com.tcs;
 
-public abstract class Bebida{
+public class Bebida {
 
     private Integer identificador;
     private Double litros;
     private Double precio;
     private String marca;
+
+    public Bebida() {
+    }
+
+    public Bebida(Integer identificador, Double litros, Double precio, String marca) {
+        this.identificador = identificador;
+        this.litros = litros;
+        this.precio = precio;
+        this.marca = marca;
+    }
 
     public Integer getIdentificador() {
         return identificador;

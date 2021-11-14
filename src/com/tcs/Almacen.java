@@ -15,260 +15,235 @@ public class Almacen {
     private static Estanteria[] estanterias = new Estanteria[4];
     private static Integer identificadorGlobal = 0;
 
-    public Almacen(){
+    public Almacen() {
         for (int i = 0; i < estanterias.length; i++) {
             Estanteria estanteria = new Estanteria();
-            estanterias[i]=estanteria;
+            estanterias[i] = estanteria;
 
         }
     }
 
-    public void calcularPrecioTodasBebidas(){
+    public void calcularPrecioTodasBebidas() {
         System.out.println("Calculando precio de todas las bebidas...");
-        int precioTotal = 0;
+        double precioTotal = 0;
         int productos = 0;
         for (int i = 0; i < estanterias.length; i++) {
-            productos= estanterias[i].getProductos().length;
+            productos = estanterias[i].getProductos().length;
             for (int j = 0; j < productos; j++) {
-                if(!Objects.isNull(estanterias[i].getProductos()[j])) {
-
+                if (!Objects.isNull(estanterias[i].getProductos()[j])) {
                     Producto producto = estanterias[i].getProductos()[j];
                     Bebida bebida = (Bebida) producto;
-                    precioTotal = (int) (precioTotal + bebida.getPrecio());
-
+                    precioTotal = precioTotal + bebida.getPrecio();
 
                 }
             }
         }
-        System.out.println("Precio total es: "+precioTotal);
-
+        System.out.println("Precio total es: " + precioTotal);
     }
 
-    public void calcularPrecioTotalMarcaBebida(){
-        System.out.println("Ingrese la marca a calcular precio: \n");
-        String marca = lector.nextLine();
-        int precioTotalMarca = 0;
+    public void calcularPrecioTotalMarcaBebida() {
+        String marca = LectorUtil.leerString("Ingrese la marca a calcular precio: \n");
+        double precioTotalMarca = 0;
 
         for (int i = 0; i < estanterias.length; i++) {
             int productos = estanterias[i].getProductos().length;
-
             for (int j = 0; j < productos; j++) {
-
-                if(!Objects.isNull(estanterias[i].getProductos()[j])){
+                if (!Objects.isNull(estanterias[i].getProductos()[j])) {
                     Producto producto = estanterias[i].getProductos()[j];
                     Bebida bebida = (Bebida) producto;
 
-                    if(bebida.getMarca().equals(marca)){
-                        precioTotalMarca = (int) (precioTotalMarca + bebida.getPrecio());
+                    if (bebida.getMarca().equals(marca)) {
+                        precioTotalMarca = precioTotalMarca + bebida.getPrecio();
                     }
-
                 }
             }
-
         }
 
-        System.out.println("El precio total de bebidas de la marca: "+marca+" es: "+precioTotalMarca);
-
+        System.out.println("El precio total de bebidas de la marca: " + marca + " es: " + precioTotalMarca);
 
     }
 
-    public void calcularPrecioTotalEstanteria(){
-        System.out.println("Ingrese la estantería: \n");
-        do{
-            System.out.println("Ingrese la estantería: \n");
-            opcion = lector.nextInt();
-            lector.nextLine();
+    public void calcularPrecioTotalEstanteria() {
+        do {
+            opcion = LectorUtil.leerInteger("Ingrese la estantería: \n");
+        } while (opcion < 1 || opcion > estanterias.length);
 
-        }while (opcion<1 || opcion>10);
-
-        int estanteria = opcion-1;
+        int estanteria = opcion - 1;
         int productos = 0;
-        int precioTotalEstanteria = 0;
+        double precioTotalEstanteria = 0;
+        productos = estanterias[estanteria].getProductos().length;
 
-        productos= estanterias[estanteria].getProductos().length;
         for (int j = 0; j < productos; j++) {
-            if(!Objects.isNull(estanterias[estanteria].getProductos()[j])) {
-
+            if (!Objects.isNull(estanterias[estanteria].getProductos()[j])) {
                 Producto producto = estanterias[estanteria].getProductos()[j];
                 Bebida bebida = (Bebida) producto;
-                precioTotalEstanteria = (int) (precioTotalEstanteria + bebida.getPrecio());
+                precioTotalEstanteria = precioTotalEstanteria + bebida.getPrecio();
 
             }
         }
 
-        System.out.println("Precio total estantería número: "+opcion+" es: "+precioTotalEstanteria);
+        System.out.println("Precio total estantería número: " + opcion + " es: " + precioTotalEstanteria);
     }
 
-    public void agregarProducto(){
+    public void agregarProducto() {
         System.out.println("Agregando producto");
-        incrementarIdentificadorGlobal();
         Producto producto;
-        do{
-            try{
+        do {
+            try {
                 System.out.println("Es bebida azucarada?\n1. Sí\n2. No ");
                 opcion = Integer.parseInt(lector.nextLine());
-            }catch (Exception e){
+            } catch (Exception e) {
                 Logger.getGlobal().log(Level.SEVERE, "La opción debe ser un número");
             }
-        }while (opcion<1 || opcion>2);
+        } while (opcion < 1 || opcion > 2);
+        Bebida bebida = solicitarDatosBebida();
 
+        if (opcion == 1) {
+            producto = solicitarBebidaAzucarada(bebida);
 
-        if(opcion==1){
-            producto = solicitarBebidaAzucarada();
-
-        }else{
-            producto = solicitarBebidaAguaMineral();
+        } else {
+            producto = solicitarBebidaAguaMineral(bebida);
         }
+
 
         ingresarEnEstantería(producto);
 
     }
 
-    private void ingresarEnEstantería(Producto producto){
+    private Bebida solicitarDatosBebida() {
+        incrementarIdentificadorGlobal();
+        Bebida bebida = new Bebida();
 
+        bebida.setIdentificador(identificadorGlobal);
+        bebida.setLitros(LectorUtil.leerDouble("Ingrese la cantidad de litros: "));
+        bebida.setPrecio(LectorUtil.leerDouble("Ingrese precio: "));
+        bebida.setMarca(LectorUtil.leerString("Ingrese marca: "));
+
+        return bebida;
+    }
+
+    private void ingresarEnEstantería(Producto producto) {
+        boolean ingresado = false;
         for (int i = 0; i < estanterias.length; i++) {
             int productos = estanterias[i].getProductos().length;
 
             for (int j = 0; j < productos; j++) {
-
-                if(Objects.isNull(estanterias[i].getProductos()[j])){
-                    estanterias[i].getProductos()[j]=producto;
+                if (Objects.isNull(estanterias[i].getProductos()[j])) {
+                    estanterias[i].getProductos()[j] = producto;
+                    ingresado=true;
                     return;
                 }
             }
-
+        }
+        if(ingresado){
+            System.out.println("Producto agregado correctamente.");
+        }else{
+            System.out.println("No se pudo agregar el producto");
         }
 
     }
 
-    private Producto solicitarBebidaAzucarada(){
-        Azucarada azucarada = new Azucarada();
-        azucarada.setIdentificador(identificadorGlobal);
+    private Producto solicitarBebidaAzucarada(Bebida bebida) {
+        Azucarada azucarada = new Azucarada(bebida.getIdentificador(), bebida.getLitros(), bebida.getPrecio(), bebida.getMarca());
 
-        System.out.println("Ingrese la cantidad de litros: ");
-        azucarada.setLitros(lector.nextDouble());
-        lector.nextLine();
+        azucarada.setPorcentajeAzucar(LectorUtil.leerDouble("Porcentaje de azucar: "));
+        do {
+            opcion = LectorUtil.leerInteger("Tiene promocion?\n1. Sí\n2. No");
 
-        System.out.println("Ingrese precio: ");
-        azucarada.setPrecio(lector.nextDouble());
-        lector.nextLine();
+        } while (opcion < 1 || opcion > 2);
 
-        System.out.println("Ingrese marca: ");
-        azucarada.setMarca(lector.nextLine());
-
-        System.out.println("Porcentaje de azucar: ");
-        azucarada.setPorcentajeAzucar(lector.nextDouble());
-
-        do{
-            System.out.println("Tiene promocion?\n1. Sí\n2. No");
-            opcion = lector.nextInt();
-            lector.nextLine();
-
-        }while (opcion<1 || opcion>2);
-
-        if(opcion == 1){
-            azucarada.setPrecio(azucarada.getPrecio() - (azucarada.getPrecio()*(0.1)));
+        if (opcion == 1) {
+            azucarada.setPrecio(azucarada.getPrecio() - (azucarada.getPrecio() * (0.1)));
         }
-
         azucarada.setTienePromocion(opcion == 1);
-
-
         System.out.println(azucarada.toString());
 
         return azucarada;
 
     }
 
-    private Producto solicitarBebidaAguaMineral(){
+    private Producto solicitarBebidaAguaMineral(Bebida bebida) {
 
-        AguaMineral aguaMineral = new AguaMineral();
-        aguaMineral.setIdentificador(identificadorGlobal);
+        AguaMineral aguaMineral = new AguaMineral(bebida.getIdentificador(), bebida.getLitros(), bebida.getPrecio(), bebida.getMarca());
+        do {
+            opcion = LectorUtil.leerInteger("Origen de agua mineral?\n1. Manantial\n2. Oasis\n3. Reserva");
 
-        System.out.println("Ingrese la cantidad de litros: ");
-        aguaMineral.setLitros(lector.nextDouble());
-        lector.nextLine();
-
-        System.out.println("Ingrese precio: ");
-        aguaMineral.setPrecio(lector.nextDouble());
-        lector.nextLine();
-
-        System.out.println("Ingrese marca: ");
-        aguaMineral.setMarca(lector.nextLine());
-
-        System.out.println("Origen: ");
-        aguaMineral.setOrigen(lector.nextLine());
-
+        } while (opcion < 1 || opcion > 3);
+        aguaMineral.setOrigen(getOrigenAguaMineral(opcion));
 
         System.out.println(aguaMineral.toString());
 
         return aguaMineral;
     }
 
-    public void eliminarProducto(){
-        System.out.println("Ingrese identificador del producto a eliminar: \n");
-        opcion = lector.nextInt();
-        lector.nextLine();
-        int identificador = opcion;
+    private String getOrigenAguaMineral(int opcion) {
+        if (opcion == 1) {
+            return "Manantial";
+        } else if (opcion == 2) {
+            return "Oasis";
+        } else {
+            return "Reserva";
+        }
+    }
 
+    public void eliminarProducto() {
+        opcion = LectorUtil.leerInteger("Ingrese identificador del producto a eliminar: \n");
+        int identificador = opcion;
+        boolean eliminado = false;
 
         for (int i = 0; i < estanterias.length; i++) {
             int productos = estanterias[i].getProductos().length;
-
             for (int j = 0; j < productos; j++) {
-
-                if(!Objects.isNull(estanterias[i].getProductos()[j])){
-                    if(estanterias[i].getProductos()[j] instanceof AguaMineral){
-                        AguaMineral aguaMineral = (AguaMineral) estanterias[i].getProductos()[j];
-                        if(aguaMineral.getIdentificador().equals(identificador)){
-                            estanterias[i].getProductos()[j] = null;
-
-                        }
-                    }else{
-                        Azucarada azucarada = (Azucarada) estanterias[i].getProductos()[j];
-                        if(azucarada.getIdentificador().equals(identificador)){
-                            estanterias[i].getProductos()[j] = null;
-
-                        }
+                if (!Objects.isNull(estanterias[i].getProductos()[j])) {
+                    Producto producto = estanterias[i].getProductos()[j];
+                    Bebida bebida = (Bebida) producto;
+                    if (bebida.getIdentificador().equals(identificador)) {
+                        eliminado = true;
+                        estanterias[i].getProductos()[j] = null;
                     }
                 }
             }
-
         }
-
+        if(eliminado){
+            System.out.println("Se eliminó el producto con id "+identificador);
+        }else {
+            System.out.println("No se encontró el producto con id "+identificador);
+        }
     }
 
-    public void mostrarInformacion(){
+    public void mostrarInformacion() {
         System.out.println("Mostramos toda la info del almacen");
 
         escribirArchivo();
     }
 
-    private void escribirArchivo(){
+    private void escribirArchivo() {
+        boolean vacio = true;
         try (FileWriter fichero = new FileWriter("almacen.txt", false);
-             PrintWriter pw = new PrintWriter(fichero);){
-
+             PrintWriter pw = new PrintWriter(fichero);) {
             for (int i = 0; i < estanterias.length; i++) {
                 for (int j = 0; j < estanterias[i].getProductos().length; j++) {
 
-                    if(!Objects.isNull(estanterias[i].getProductos()[j])){
-                        System.out.println("Estantería: "+(i+1)+" "+estanterias[i].getProductos()[j].toString());
+                    if (!Objects.isNull(estanterias[i].getProductos()[j])) {
+                        vacio=false;
+                        System.out.println("Estantería: " + (i + 1) + " " + estanterias[i].getProductos()[j].toString());
                         pw.println(estanterias[i].getProductos()[j].toString());
                     }
-
                 }
-
             }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.getGlobal().log(Level.SEVERE, "Error escribiendo en archivo", e);
+        }
+        if (vacio){
+            System.out.println("No hay productos que imprimir.");
+        }else{
+            System.out.println("Productos impresos con exito.");
         }
     }
 
-
-    private void incrementarIdentificadorGlobal(){
+    private void incrementarIdentificadorGlobal() {
         identificadorGlobal++;
     }
-
 
 
 }

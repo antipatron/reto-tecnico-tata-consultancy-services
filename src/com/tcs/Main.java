@@ -22,7 +22,6 @@ public class Main {
 
     }
 
-
     public static void operacion() {
         boolean operacionIncorrecta = false;
 

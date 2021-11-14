@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Estanteria {
 
-    private Producto[] productos = new Producto[4];
+    private Producto[] productos = new Producto[2];
 
     public Estanteria(){
         for (int i = 0; i < productos.length; i++) {
